@@ -22,6 +22,7 @@
 
 #include "statemachine.h"
 #include "evaluator.h"
+#include "logger.h"
 
 enum detection_mode {
     LEARNING,
@@ -30,12 +31,14 @@ enum detection_mode {
 
 struct engine;
 
-struct engine *engine_create(struct context *ctx, timeslot_interval_t *timeslots, size_t timeslot_cnt, double threshold, const char *logfile);
+struct engine *engine_create(struct context *ctx, timeslot_interval_t *timeslots, size_t timeslot_cnt, double threshold, const char *logfile, struct logger *log);
 
-void engine_handle_packet(struct engine *en, struct context *ctx, const struct packet_info *pkt);
+void engine_handle_packet(struct engine *en, struct context *ctx, const struct packet_info *pkt, struct logger *log);
 
-void engine_change_mode(struct engine *en, struct context *ctx, enum detection_mode mode);
+void engine_change_mode(struct engine *en, struct context *ctx, enum detection_mode mode, struct logger *log);
 
 void engine_destroy(struct engine *en, struct context *ctx);
+
+void update_treshold(struct engine *en, double threshold, struct logger *log);
 
 #endif
